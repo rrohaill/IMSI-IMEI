@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">IMSI IMEI</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="get">Get</string>
+    <string name="Get">get</string>
+    <string name="ad_id">ca-app-pub-8825972559142375/8505854840</string>
+    <string name="interstitial_ad_id">ca-app-pub-8825972559142375/9919138040</string>
+</resources>
