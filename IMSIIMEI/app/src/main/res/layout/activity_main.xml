@@ -1,12 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@android:color/white"
     tools:context="com.imsi.imei.activities.MainActivity">
 
     <ScrollView
@@ -20,31 +18,77 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/imsiTextView"
-                android:layout_width="150dip"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/hello_world"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/textViewTextSizeLarge" />
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/imeiTextView"
-                android:layout_width="150dip"
+                <TextView
+                    android:id="@+id/imsiTextView"
+                    android:layout_width="150dip"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_world"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/textViewTextSizeLarge" />
+
+                <ImageView
+                    android:id="@+id/iv_imsi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@mipmap/clipboard" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="@string/hello_world"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/textViewTextSizeLarge" />
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_udid"
-                android:layout_width="150dip"
+                <TextView
+                    android:id="@+id/imeiTextView"
+                    android:layout_width="150dip"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_world"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/textViewTextSizeLarge" />
+
+                <ImageView
+                    android:id="@+id/iv_imei"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@mipmap/clipboard" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="@string/hello_world"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/textViewTextSizeLarge" />
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_udid"
+                    android:layout_width="150dip"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_world"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/textViewTextSizeLarge" />
+
+                <ImageView
+                    android:id="@+id/iv_udid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@mipmap/clipboard" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/getButton"
@@ -53,11 +97,11 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="32dp"
-                android:textSize="@dimen/textViewTextSizeLarge"
                 android:background="@drawable/button_primary"
                 android:minWidth="120dp"
                 android:text="@string/get"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textViewTextSizeLarge" />
 
         </LinearLayout>
 

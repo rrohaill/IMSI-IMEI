@@ -2,16 +2,21 @@ package com.imsi.imei.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +34,8 @@ public class MainActivity extends Activity implements OnClickListener {
     private Button get;
     private TextView imsiText, imeiText;
     private TextView tvUdid;
+    private ImageView ivIMSI, ivIMEI, ivUDID;
+    private RelativeLayout rlMain;
     private AdView mAdView;
     private InterstitialAd mInterstitialAd;
 
@@ -42,12 +49,21 @@ public class MainActivity extends Activity implements OnClickListener {
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
         }
-//        else {
 
         get = (Button) findViewById(R.id.getButton);
         get.setOnClickListener(this);
 
-//        }
+        ivIMSI = (ImageView) findViewById(R.id.iv_imsi);
+        ivIMSI.setOnClickListener(this);
+
+        ivIMEI = (ImageView) findViewById(R.id.iv_imei);
+        ivIMEI.setOnClickListener(this);
+
+        ivUDID = (ImageView) findViewById(R.id.iv_udid);
+        ivUDID.setOnClickListener(this);
+
+        rlMain = (RelativeLayout) findViewById(R.id.rl_main);
+
 
         imsiText = (TextView) findViewById(R.id.imsiTextView);
         imsiText.setText("IMSI: ");
@@ -89,12 +105,38 @@ public class MainActivity extends Activity implements OnClickListener {
     public void onClick(View v) {
         // TODO Auto-generated method stub
 
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
+        switch (v.getId()) {
 
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE_CLICK);
-        } else {
-            showData();
+            case R.id.getButton:
+
+                int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
+
+                if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE_CLICK);
+                } else {
+                    showData();
+                }
+
+                break;
+
+            case R.id.iv_imsi:
+                if (!imsiText.getText().toString().equals("IMSI: ")) {
+                    copyToClipboard("IMSI", imsiText.getText().toString());
+                }
+                break;
+
+            case R.id.iv_imei:
+                if (!imeiText.getText().toString().equals("IMEI: ")) {
+                    copyToClipboard("IMEI", imeiText.getText().toString());
+                }
+                break;
+
+            case R.id.iv_udid:
+                if (!tvUdid.getText().toString().equals("UDID: ")) {
+                    copyToClipboard("UDID", tvUdid.getText().toString());
+                }
+                break;
+
         }
 
 
@@ -104,6 +146,24 @@ public class MainActivity extends Activity implements OnClickListener {
         // imeiText.setText(mPhoneNumber);
 
     }
+
+    private void copyToClipboard(String label, String text) {
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(label, text);
+        clipboard.setPrimaryClip(clip);
+
+        Snackbar snackbar = Snackbar
+                .make(rlMain, "Copied to clipboard", Snackbar.LENGTH_LONG);
+
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+
+        sbView.setBackgroundResource(R.color.colorPrimary);
+
+        snackbar.show();
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
