@@ -13,4 +13,13 @@
     <dimen name="textViewTextSizeXLarge">24dp</dimen>
     <dimen name="textViewTextSizeXXXLarge">40dp</dimen>
 
+    <dimen name="margin_standard">16dp</dimen>
+    <dimen name="margin_short">8dp</dimen>
+    <dimen name="margin_extra_short">4dp</dimen>
+
+    <dimen name="activityMarginXXSmall">5dp</dimen>
+    <dimen name="activityMarginXSmall">10dp</dimen>
+    <dimen name="activityMarginSmall">16dp</dimen>
+    <dimen name="activityMarginNormal">20dp</dimen>
+
 </resources>

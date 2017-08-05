@@ -4,6 +4,7 @@
     android:id="@+id/rl_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:background="@android:color/white"
     tools:context="com.imsi.imei.activities.MainActivity">
 
@@ -13,10 +14,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="40dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -100,6 +102,19 @@
                 android:background="@drawable/button_primary"
                 android:minWidth="120dp"
                 android:text="@string/get"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textViewTextSizeLarge" />
+
+            <Button
+                android:id="@+id/btn_device_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_primary"
+                android:minWidth="150dp"
+                android:text="@string/device_info"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/textViewTextSizeLarge" />
 

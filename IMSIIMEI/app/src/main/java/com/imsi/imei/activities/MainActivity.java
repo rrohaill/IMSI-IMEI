@@ -5,13 +5,18 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -32,12 +37,14 @@ public class MainActivity extends Activity implements OnClickListener {
     private static final int REQUEST_READ_PHONE_STATE = 1123;
     private static final int REQUEST_READ_PHONE_STATE_CLICK = 1124;
     private Button get;
+    private Button btnDeviceInfo;
     private TextView imsiText, imeiText;
     private TextView tvUdid;
     private ImageView ivIMSI, ivIMEI, ivUDID;
     private RelativeLayout rlMain;
     private AdView mAdView;
     private InterstitialAd mInterstitialAd;
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,9 @@ public class MainActivity extends Activity implements OnClickListener {
 
         get = (Button) findViewById(R.id.getButton);
         get.setOnClickListener(this);
+
+        btnDeviceInfo = (Button) findViewById(R.id.btn_device_info);
+        btnDeviceInfo.setOnClickListener(this);
 
         ivIMSI = (ImageView) findViewById(R.id.iv_imsi);
         ivIMSI.setOnClickListener(this);
@@ -77,6 +87,11 @@ public class MainActivity extends Activity implements OnClickListener {
         // values/strings.xml.
         mAdView = (AdView) findViewById(R.id.adView);
 
+        showInterstitialAd();
+
+    }
+
+    private void showInterstitialAd() {
         // Create an ad request. Check your logcat output for the hashed device
         // ID to
         // get test ads on a physical device. e.g.
@@ -100,7 +115,6 @@ public class MainActivity extends Activity implements OnClickListener {
                 requestNewInterstitial();
             }
         });
-
     }
 
     @Override
@@ -119,6 +133,11 @@ public class MainActivity extends Activity implements OnClickListener {
                     showData();
                 }
 
+                break;
+
+            case R.id.btn_device_info:
+                Intent intent = new Intent(MainActivity.this, DeviceInfoActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.iv_imsi:
@@ -140,12 +159,6 @@ public class MainActivity extends Activity implements OnClickListener {
                 break;
 
         }
-
-
-        // TelephonyManager tMgr =
-        // (TelephonyManager)getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
-        // String mPhoneNumber = tMgr.getLine1Number();
-        // imeiText.setText(mPhoneNumber);
 
     }
 
@@ -198,28 +211,13 @@ public class MainActivity extends Activity implements OnClickListener {
 
         TelephonyManager mTelephonyMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
-//        TelephonyInfo telephonyInfo = TelephonyInfo.getInstance(this);
-//        boolean isSIM1Ready = telephonyInfo.isSIM1Ready();
-//        boolean isSIM2Ready = telephonyInfo.isSIM2Ready();
-//
-//        final List<CellInfo> allCellInfo = mTelephonyMgr.getAllCellInfo();
-//        for (CellInfo cellInfo : allCellInfo) {
-//            if (cellInfo instanceof CellInfoGsm) {
-//                CellIdentityGsm cellIdentity = ((CellInfoGsm) cellInfo).getCellIdentity();
-//                //TODO Use cellIdentity to check MCC/MNC code, for instance.
-//            } else if (cellInfo instanceof CellInfoWcdma) {
-//                CellIdentityWcdma cellIdentity = ((CellInfoWcdma) cellInfo).getCellIdentity();
-//            } else if (cellInfo instanceof CellInfoLte) {
-//                CellIdentityLte cellIdentity = ((CellInfoLte) cellInfo).getCellIdentity();
-//            } else if (cellInfo instanceof CellInfoCdma) {
-//                CellIdentityCdma cellIdentity = ((CellInfoCdma) cellInfo).getCellIdentity();
-//            }
-//        }
-
-
         String imsi = mTelephonyMgr.getSubscriberId();
 
-        imsiText.setText("IMSI: " + imsi);
+        if (TextUtils.isEmpty(imsi)) {
+            imsiText.setText("IMSI: " + "N/A");
+        } else {
+            imsiText.setText("IMSI: " + imsi);
+        }
 
         String imei = mTelephonyMgr.getDeviceId();
 
@@ -230,6 +228,7 @@ public class MainActivity extends Activity implements OnClickListener {
                 Settings.Secure.ANDROID_ID);
 
         tvUdid.setText("UDID: " + udid);
+
     }
 
     private void showInterstitial() {
@@ -279,6 +278,27 @@ public class MainActivity extends Activity implements OnClickListener {
             mAdView.destroy();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            requestNewInterstitial();
+            showInterstitial();
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
 
 }
