@@ -5,6 +5,7 @@
     <string name="get">Get</string>
     <string name="device_info">Device info</string>
     <string name="Get">get</string>
-    <string name="ad_id">ca-app-pub-8825972559142375/8505854840</string>
-    <string name="interstitial_ad_id">ca-app-pub-8825972559142375/9919138040</string>
+    <string name="ad_id">ca-app-pub-8825972559142375/3107581437</string>
+    <string name="interstitial_ad_id">ca-app-pub-8825972559142375/5705824613</string>
+    <string name="app_ad_id">ca-app-pub-8825972559142375~5691989246</string>
 </resources>

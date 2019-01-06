@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.imsi.imei.R;
@@ -15,7 +16,7 @@ import com.imsi.imei.R;
 public class DeviceInfoActivity extends Activity {
 
     private TextView tvRootStatus;
-    private AdView mAdView;
+    private AdView adView;
     private InterstitialAd mInterstitialAd;
 
 
@@ -24,12 +25,22 @@ public class DeviceInfoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_info);
 
-        tvRootStatus = (TextView) findViewById(R.id.tv_root);
-        mAdView = (AdView) findViewById(R.id.adView);
+        tvRootStatus = findViewById(R.id.tv_root);
+//        mAdView = (AdView) findViewById(R.id.adView);
+
+        showBannerAd();
 
         showInterstitialAd();
 
         checkRoot();
+    }
+
+    private void showBannerAd() {
+        AdView adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        // Start loading the ad in the background.
+        adView.loadAd(adRequest);
     }
 
     private void showInterstitialAd() {
@@ -39,11 +50,6 @@ public class DeviceInfoActivity extends Activity {
         // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
 //        AdRequest adRequest = new AdRequest.Builder().addTestDevice(
 //                AdRequest.DEVICE_ID_EMULATOR).build();
-
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-        // Start loading the ad in the background.
-        mAdView.loadAd(adRequest);
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_id));
@@ -57,10 +63,16 @@ public class DeviceInfoActivity extends Activity {
 
             @Override
             public void onAdLoaded() {
-                super.onAdLoaded();
-                mInterstitialAd.show();
+                showInterstitial();
             }
         });
+
+    }
+
+    private void showInterstitial() {
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
     }
 
     private void checkRoot() {

@@ -7,14 +7,12 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
@@ -27,8 +25,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.imsi.imei.R;
 
 
@@ -42,7 +42,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private TextView tvUdid;
     private ImageView ivIMSI, ivIMEI, ivUDID;
     private RelativeLayout rlMain;
-    private AdView mAdView;
+    private AdView adView;
     private InterstitialAd mInterstitialAd;
     private boolean doubleBackToExitPressedOnce = false;
 
@@ -51,44 +51,54 @@ public class MainActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        MobileAds.initialize(this, getString(R.string.app_ad_id));
+
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
         }
 
-        get = (Button) findViewById(R.id.getButton);
+        get = findViewById(R.id.getButton);
         get.setOnClickListener(this);
 
-        btnDeviceInfo = (Button) findViewById(R.id.btn_device_info);
+        btnDeviceInfo = findViewById(R.id.btn_device_info);
         btnDeviceInfo.setOnClickListener(this);
 
-        ivIMSI = (ImageView) findViewById(R.id.iv_imsi);
+        ivIMSI = findViewById(R.id.iv_imsi);
         ivIMSI.setOnClickListener(this);
 
-        ivIMEI = (ImageView) findViewById(R.id.iv_imei);
+        ivIMEI = findViewById(R.id.iv_imei);
         ivIMEI.setOnClickListener(this);
 
-        ivUDID = (ImageView) findViewById(R.id.iv_udid);
+        ivUDID = findViewById(R.id.iv_udid);
         ivUDID.setOnClickListener(this);
 
-        rlMain = (RelativeLayout) findViewById(R.id.rl_main);
+        rlMain = findViewById(R.id.rl_main);
 
 
-        imsiText = (TextView) findViewById(R.id.imsiTextView);
+        imsiText = findViewById(R.id.imsiTextView);
         imsiText.setText("IMSI: ");
-        imeiText = (TextView) findViewById(R.id.imeiTextView);
+        imeiText = findViewById(R.id.imeiTextView);
         imeiText.setText("IMEI: ");
-        tvUdid = (TextView) findViewById(R.id.tv_udid);
+        tvUdid = findViewById(R.id.tv_udid);
         tvUdid.setText("UDID: ");
 
         // Gets the ad view defined in layout/ad_fragment.xml with ad unit ID
         // set in
         // values/strings.xml.
-        mAdView = (AdView) findViewById(R.id.adView);
-
+//        mAdView = findViewById(R.id.adView);
+        showBannerAd();
         showInterstitialAd();
 
+    }
+
+    private void showBannerAd() {
+        adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        // Start loading the ad in the background.
+        adView.loadAd(adRequest);
     }
 
     private void showInterstitialAd() {
@@ -99,10 +109,6 @@ public class MainActivity extends Activity implements OnClickListener {
 //        AdRequest adRequest = new AdRequest.Builder().addTestDevice(
 //                AdRequest.DEVICE_ID_EMULATOR).build();
 
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-        // Start loading the ad in the background.
-        mAdView.loadAd(adRequest);
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_id));
@@ -112,9 +118,15 @@ public class MainActivity extends Activity implements OnClickListener {
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {
-                requestNewInterstitial();
+//                requestNewInterstitial();
+            }
+
+            @Override
+            public void onAdLoaded() {
+                showInterstitial();
             }
         });
+
     }
 
     @Override
@@ -130,6 +142,7 @@ public class MainActivity extends Activity implements OnClickListener {
                 if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE_CLICK);
                 } else {
+//                    showInterstitialAd();
                     showData();
                 }
 
@@ -207,27 +220,37 @@ public class MainActivity extends Activity implements OnClickListener {
 
     private void showData() {
 
-        showInterstitial();
+//        showInterstitialAd();
 
         TelephonyManager mTelephonyMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         String imsi = mTelephonyMgr.getSubscriberId();
 
         if (TextUtils.isEmpty(imsi)) {
-            imsiText.setText("IMSI: " + "N/A");
+            imsiText.setText("IMSI:" + "N/A");
         } else {
-            imsiText.setText("IMSI: " + imsi);
+            imsiText.setText("IMSI:\n" + imsi);
         }
 
         String imei = mTelephonyMgr.getDeviceId();
 
-        imeiText.setText("IMEI: " + imei);
+        imeiText.setText("IMEI:\n" + imei);
 
         String udid = Settings.Secure.getString(
                 MainActivity.this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 
-        tvUdid.setText("UDID: " + udid);
+        tvUdid.setText("UDID:\n" + udid);
 
     }
 
@@ -252,8 +275,8 @@ public class MainActivity extends Activity implements OnClickListener {
      */
     @Override
     public void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();
+        if (adView != null) {
+            adView.pause();
         }
         super.onPause();
     }
@@ -264,8 +287,8 @@ public class MainActivity extends Activity implements OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (mAdView != null) {
-            mAdView.resume();
+        if (adView != null) {
+            adView.resume();
         }
     }
 
@@ -274,8 +297,8 @@ public class MainActivity extends Activity implements OnClickListener {
      */
     @Override
     public void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
+        if (adView != null) {
+            adView.destroy();
         }
         super.onDestroy();
     }
@@ -283,8 +306,8 @@ public class MainActivity extends Activity implements OnClickListener {
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
-            requestNewInterstitial();
-            showInterstitial();
+//            requestNewInterstitial();
+//            showInterstitial();
             super.onBackPressed();
             return;
         }
