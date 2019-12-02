@@ -15,21 +15,29 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal"
             android:layout_gravity="center"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingBottom="40dp">
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/rlImsi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_marginTop="32dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/margin_standard"
+                android:paddingRight="@dimen/margin_standard">
 
                 <TextView
                     android:id="@+id/imsiTextView"
-                    android:layout_width="150dip"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_standard"
+                    android:layout_toStartOf="@+id/iv_imsi"
                     android:text="@string/hello_world"
                     android:textColor="@color/colorAccent"
                     android:textSize="@dimen/textViewTextSizeLarge" />
@@ -38,22 +46,32 @@
                     android:id="@+id/iv_imsi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_standard"
                     android:background="@mipmap/clipboard" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/rlImei"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_below="@+id/rlImsi"
+                android:layout_marginTop="@dimen/activityMarginNormal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/margin_standard"
+                android:paddingRight="@dimen/margin_standard">
 
                 <TextView
                     android:id="@+id/imeiTextView"
-                    android:layout_width="150dip"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_standard"
+                    android:layout_toStartOf="@+id/iv_imei"
                     android:text="@string/hello_world"
                     android:textColor="@color/colorAccent"
                     android:textSize="@dimen/textViewTextSizeLarge" />
@@ -62,23 +80,33 @@
                     android:id="@+id/iv_imei"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_standard"
                     android:background="@mipmap/clipboard" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/rlUdid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_below="@+id/rlImei"
+                android:layout_marginTop="@dimen/activityMarginNormal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/margin_standard"
+                android:paddingRight="@dimen/margin_standard">
 
                 <TextView
                     android:id="@+id/tv_udid"
-                    android:layout_width="150dip"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_standard"
+                    android:layout_toStartOf="@+id/iv_udid"
                     android:text="@string/hello_world"
                     android:textColor="@color/colorAccent"
                     android:textSize="@dimen/textViewTextSizeLarge" />
@@ -87,15 +115,18 @@
                     android:id="@+id/iv_udid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_standard"
                     android:background="@mipmap/clipboard" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/getButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/rlUdid"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="32dp"
@@ -109,6 +140,7 @@
                 android:id="@+id/btn_device_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/getButton"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="10dp"
@@ -117,6 +149,14 @@
                 android:text="@string/device_info"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/textViewTextSizeLarge" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activityMarginNormal"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/textViewTextSizeMedium"></androidx.appcompat.widget.AppCompatTextView>
 
         </LinearLayout>
 
