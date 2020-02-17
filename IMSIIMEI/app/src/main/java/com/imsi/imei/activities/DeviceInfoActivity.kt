@@ -129,4 +129,9 @@ class DeviceInfoActivity : Activity() {
         timer.cancel()
         super.onDestroy()
     }
+
+    override fun onBackPressed() {
+        timer.cancel()
+        super.onBackPressed()
+    }
 }

@@ -218,14 +218,18 @@ class MainActivity : Activity(), OnClickListener {
 
         val mTelephonyMgr: TelephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
 
-        var value = Settings.System.getString(contentResolver, Settings.Secure.ANDROID_ID) //bfdd68bbcfa32a46
-        value = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID) //bfdd68bbcfa32a46
+        /*var value = Settings.System.getString(contentResolver, Settings.Secure.ANDROID_ID) //bfdd68bbcfa32a46
+        value = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID) //bfdd68bbcfa32a46*/
+
+        tvPhone.text = "Phone number: N/A"
+
+        tvPhone.text = mTelephonyMgr.line1Number?.let { "Phone number: $it" }
 
         imsiText!!.text = "IMSI: " + "N/A"
         try {
 
-            val imsi = mTelephonyMgr!!.subscriberId?.let {
-                imsiText!!.text = "IMSI:\n${mTelephonyMgr.subscriberId}"
+            mTelephonyMgr!!.subscriberId?.let {
+                imsiText?.text = "IMSI:\n${it}"
             }
 
         } catch (e: Exception) {
@@ -233,7 +237,7 @@ class MainActivity : Activity(), OnClickListener {
 
         imeiText!!.text = "IMEI: N/A"
         try {
-            mTelephonyMgr?.deviceId!!.let { imeiText!!.text = "IMEI:\n${mTelephonyMgr.deviceId}" }
+            mTelephonyMgr?.deviceId?.let { imeiText!!.text = "IMEI:\n${it}" }
         } catch (e: Exception) {
         }
 

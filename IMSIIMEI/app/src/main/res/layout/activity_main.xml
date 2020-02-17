@@ -20,6 +20,13 @@
             android:orientation="vertical"
             android:paddingBottom="40dp">
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone number:"
+                android:textColor="@color/colorAccent" />
+
             <RelativeLayout
                 android:id="@+id/rlImsi"
                 android:layout_width="match_parent"
@@ -36,8 +43,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/margin_standard"
-                    android:layout_toStartOf="@+id/iv_imsi"
+                    android:layout_marginRight="@dimen/margin_standard"
+                    android:layout_toLeftOf="@+id/iv_imsi"
                     android:text="@string/hello_world"
                     android:textColor="@color/colorAccent"
                     android:textSize="@dimen/textViewTextSizeLarge" />
@@ -70,8 +77,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/margin_standard"
-                    android:layout_toStartOf="@+id/iv_imei"
+                    android:layout_marginRight="@dimen/margin_standard"
+                    android:layout_toLeftOf="@+id/iv_imei"
                     android:text="@string/hello_world"
                     android:textColor="@color/colorAccent"
                     android:textSize="@dimen/textViewTextSizeLarge" />
@@ -105,8 +112,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/margin_standard"
-                    android:layout_toStartOf="@+id/iv_udid"
+                    android:layout_marginRight="@dimen/margin_standard"
+                    android:layout_toLeftOf="@+id/iv_udid"
                     android:text="@string/hello_world"
                     android:textColor="@color/colorAccent"
                     android:textSize="@dimen/textViewTextSizeLarge" />

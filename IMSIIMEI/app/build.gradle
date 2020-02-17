@@ -9,8 +9,8 @@ android {
         applicationId "com.imsi.imei"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 14
-        versionName "2.1.0"
+        versionCode 15
+        versionName "2.2.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
